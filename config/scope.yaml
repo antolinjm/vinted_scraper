@@ -1,0 +1,46 @@
+# Alcance de la recogida. Nada de esto debe ir hardcodeado en el código.
+
+http:
+  # Ritmo: una petición cada min_delay–max_delay segundos (jitter uniforme).
+  min_delay_s: 3.0
+  max_delay_s: 6.0
+  # Backoff exponencial ante 429 / 403 / 5xx: base * 2^intento (30, 60, 120, ...).
+  backoff_base_s: 30
+  max_retries: 5
+  # Reintentos del warm-up cuando Cloudflare devuelve challenge en la home.
+  warmup_retries: 5
+  warmup_retry_s: 8
+  timeout_s: 30
+
+markets:
+  # web: dominio de la web (cookies); api: dominio de la API svc-*.
+  es:
+    web: https://www.vinted.es
+    api: https://api.vinted.es
+    locale: es-ES
+    currency: EUR
+  fr:
+    web: https://www.vinted.fr
+    api: https://api.vinted.fr
+    locale: fr-FR
+    currency: EUR
+
+# Fase 1 – piloto. Ids tomados del árbol de categorías (data/raw/catalog_tree_es.json).
+pilot:
+  market: es
+  order: newest_first
+  catalogs:
+    - id: 2630   # Mujer > Calzado > Zapatillas de deporte
+    - id: 1242   # Hombre > Calzado > Zapatillas
+    - id: 1908   # Mujer > Ropa > Abrigos y cazadoras > Chaquetas
+  # Rango de precio inicial para el sharding recursivo.
+  price_from: 0
+  price_to: 2000
+  # Por debajo de este ancho de rango (EUR) se deja de partir por precio
+  # y se pasa a partir por estado (status).
+  min_price_width: 0.5
+
+probe:
+  market: es
+  catalog_id: 1242
+  order: newest_first

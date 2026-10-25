@@ -1,0 +1,23 @@
+# Datos: contienen datos personales (JSON crudo) y volumen. Nunca a git.
+data/*
+!data/raw/
+!data/panel/
+data/raw/*
+data/panel/*
+!data/raw/.gitkeep
+!data/panel/.gitkeep
+
+# Secretos (sal de pseudonimización, etc.)
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+build/
+dist/
+
+# Notebooks
+.ipynb_checkpoints/
